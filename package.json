@@ -6,11 +6,13 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "dev": "bun --watch run index.ts",
-    "build": "bun build ./index.ts --outdir ./dist"
+    "build": "bun build ./index.ts --outdir ./dist",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "typescript": "^5.9.2"

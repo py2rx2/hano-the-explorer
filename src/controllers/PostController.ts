@@ -4,10 +4,8 @@ import prisma from "../../prisma/client";
 
 export const getPosts = async (c: Context) => {
     try {
-        //get all posts
         const posts = await prisma.post.findMany({ orderBy: { id: 'desc' } });
 
-        //return JSON
         return c.json({
             success: true,
             message: 'List Data Posts!',
@@ -22,14 +20,11 @@ export const getPosts = async (c: Context) => {
 export async function createPost(c: Context) {
     try {
   
-        //get body request
         const body = await c.req.json();
     
-        //check if title and content is string
         const title   = typeof body['title'] === 'string' ? body['title'] : '';
         const content = typeof body['content'] === 'string' ? body['content'] : '';
     
-        //create post
         const post = await prisma.post.create({
             data: {
                 title: title,
@@ -39,7 +34,6 @@ export async function createPost(c: Context) {
 
         console.log(post);
 
-        //return JSON
         return c.json({
             success: true,
             message: 'Post Created Successfully!',
@@ -54,24 +48,19 @@ export async function createPost(c: Context) {
 export async function getPostById(c: Context) {
     try {
 
-        // Konversi tipe id menjadi number
         const postId = parseInt(c.req.param('id'));
 
-        //get post by id
         const post = await prisma.post.findUnique({
             where: { id: postId },
         });
 
-        //if post not found
         if (!post) {
-            //return JSON
             return c.json({
                 success: false,
                 message: 'Post Not Found!',
             }, 404);
         }
 
-        //return JSON
         return c.json({
             success: true,
             message: `Detail Data Post By ID : ${postId}`,
@@ -86,17 +75,13 @@ export async function getPostById(c: Context) {
 export async function updatePost(c: Context) {
     try {
 
-        // Konversi tipe id menjadi number
         const postId = parseInt(c.req.param('id'));
 
-        //get body request
         const body = await c.req.json();
 
-        //check if title and content is string
         const title = typeof body['title'] === 'string' ? body['title'] : '';
         const content = typeof body['content'] === 'string' ? body['content'] : '';
 
-        //update post with prisma
         const post = await prisma.post.update({
             where: { id: postId },
             data: {
@@ -106,7 +91,6 @@ export async function updatePost(c: Context) {
             },
         });
 
-        //return JSON
         return c.json({
             success: true,
             message: 'Post Updated Successfully!',
@@ -122,15 +106,12 @@ export async function updatePost(c: Context) {
 export async function deletePost(c: Context) {
     try {
 
-        // Konversi tipe id menjadi number
         const postId = parseInt(c.req.param('id'));
 
-        //delete post with prisma
         await prisma.post.delete({
             where: { id: postId },
         });
 
-        //return JSON
         return c.json({
             success: true,
             message: 'Post Deleted Successfully!',
